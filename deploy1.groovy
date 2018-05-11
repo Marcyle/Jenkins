@@ -4,13 +4,13 @@ node {
     try {
         def gradleHome = tool 'gradle3.5'
         stage('代码检出') {
-            git branch: 'docker-sit', credentialsId: 'gitlab', url: 'http://10.10.0.xx/xx/xx.git'
+            git branch: 'sit', credentialsId: 'gitlab', url: 'http://10.10.0.xx/xx/xx.git'
         }
         stage('代码编译') {
             sh "'${gradleHome}/bin/gradle' clean build -x test"
             archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
         }
-        def regPrefix = '10.41.0.206/xx/'
+        def regPrefix = '10.41.0.xx/xx/'
         stage('镜像构建') {
             docker.withRegistry('http://10.41.0.xx/','0fa2a5a1-42f9-424d-863b-37a9c7c93ede'){
                 if ("${MODULE}".contains('api-gateway')){
